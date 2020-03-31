@@ -11,6 +11,7 @@
       <pick-com v-show="active === 1"></pick-com>
       <select-tree v-show="active === 2"></select-tree>
       <limit-com v-show="active === 3"></limit-com>
+      <target-com v-show="active === 4"></target-com>
     </div>
     <div class="btn-group">
       <van-button @click="lastStep" type="primary" mini hairline plain>上一步</van-button>
@@ -23,6 +24,7 @@
 import SelectTree from '@/components/SelectTree';
 import PickCom from '@/components/PickCom';
 import LimitCom from '@/components/LimitCom';
+import TargetCom from '@/components/TargetCom';
 export default {
   data() {
     return {
@@ -33,6 +35,7 @@ export default {
     PickCom,
     SelectTree,
     LimitCom,
+    TargetCom,
   },
   methods: {
     nextStep() {
