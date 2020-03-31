@@ -1,26 +1,27 @@
 <template>
   <div id="calc">
-    <van-panel title="散件一速" desc="描述信息" :status="'' + maxSpeed">
-      <ul class="yuhun-box">
-        <li
-          :class="'yuhun-pos-' + (index + 1)"
-          v-for="(item, index) in maxSpeedList"
-          :key="index"
-          @click="show(index)"
-        >
-          <img :src="item.icon" alt="" />
-        </li>
-      </ul>
-      <!-- <ul class="max-speed-list">
-        <li v-for="(item, index) in maxSpeedList" :key="index">
-          <span>{{ item.pos }}号位</span>
-          <span> {{ item.name }}</span>
-          <span>
-            {{ item.attrs.速度.toFixed(4) }}
-          </span>
-        </li>
-      </ul> -->
-    </van-panel>
+    <van-collapse v-model="activeName">
+      <van-collapse-item title="散件一速" name="1">
+        <div v-if="maxSpeedList.length">
+          <van-divider>{{ maxSpeed }}</van-divider>
+          <ul class="yuhun-box">
+            <li
+              :class="'yuhun-pos-' + (index + 1)"
+              v-for="(item, index) in maxSpeedList"
+              :key="index"
+              @click="show(index)"
+            >
+              <img :src="item.icon" alt />
+            </li>
+          </ul>
+        </div>
+        <p v-else>请先上传json文件</p>
+      </van-collapse-item>
+      <van-collapse-item title="面板计算" name="2">
+        <calc-com></calc-com>
+      </van-collapse-item>
+      <van-collapse-item title="标题3" name="3">内容</van-collapse-item>
+    </van-collapse>
     <div>
       <!-- 遮罩 -->
       <van-popup v-model="showPop" position="bottom" :style="{ height: '30%' }">
@@ -45,6 +46,8 @@ import { mapState } from 'vuex';
 import yuhunMap from '@/data/yuhunMap';
 import { ff } from '@/filters';
 
+import CalcCom from '@/components/CalcCom';
+
 export default {
   data() {
     return {
@@ -52,7 +55,11 @@ export default {
       maxSpeed: 0,
       showPop: false,
       showItem: {},
+      activeName: ['2'],
     };
+  },
+  components: {
+    CalcCom,
   },
   filters: {
     ff,
@@ -61,6 +68,7 @@ export default {
     ...mapState(['yuhunList']),
   },
   mounted() {
+    if (!this.yuhunList.length) return;
     this.getMaxSpeed();
     console.log('calc max speed :', this.maxSpeed);
   },
@@ -95,7 +103,7 @@ export default {
         maxSpeed += maxPos.attrs.速度;
       }
       this.maxSpeedList = maxSpeedList;
-      this.maxSpeed = maxSpeed.toFixed(4);
+      this.maxSpeed = maxSpeed.toFixed(6);
     },
   },
 };
