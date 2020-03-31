@@ -1,32 +1,49 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <van-nav-bar title="御魂show" :fixed="true" left-arrow @click-left="goBack" />
+    <div class="main">
+      <router-view />
     </div>
-    <router-view />
+    <tabbar-com></tabbar-com>
   </div>
 </template>
 
+<script>
+import TabbarCom from '@/components/TabbarCom';
+
+import { mapMutations } from 'vuex';
+export default {
+  components: {
+    TabbarCom,
+  },
+  data() {
+    return {};
+  },
+  mounted() {
+    let yuhun = localStorage.getItem('yuhun');
+    let username = localStorage.getItem('username');
+    if (yuhun != null && username != null && yuhun.length > 0 && username.length > 0) {
+      console.log('loaded yuhun data :', username);
+      this.$store.commit('updateYhList', { username, yuhun: JSON.parse(yuhun) });
+    }
+  },
+
+  methods: {
+    ...mapMutations(['updateYhList']),
+    goBack() {
+      this.$router.go(-1);
+    },
+  },
+};
+</script>
+
 <style lang="less">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  .van-nav-bar {
+    z-index: 999;
+  }
+  .main {
+    margin: 46px 0 50px 0;
   }
 }
 </style>
