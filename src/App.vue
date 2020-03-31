@@ -24,7 +24,10 @@ export default {
     let username = localStorage.getItem('username');
     if (yuhun != null && username != null && yuhun.length > 0 && username.length > 0) {
       console.log('loaded yuhun data :', username);
-      this.$store.commit('updateYhList', { username, yuhun: JSON.parse(yuhun) });
+      this.$store.commit('updateYhList', {
+        username,
+        yuhun: JSON.parse(yuhun),
+      });
     }
   },
 
