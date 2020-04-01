@@ -8,43 +8,92 @@
       <van-step>计算指标</van-step>
     </van-steps>
     <div class="calc-content">
-      <pick-com v-show="active === 1"></pick-com>
-      <select-tree v-show="active === 2"></select-tree>
-      <limit-com v-show="active === 3"></limit-com>
-      <target-com v-show="active === 4"></target-com>
+      <pick-com v-show="active === 0" :type="'式神'" @updateCalcObj="updateCalcObj"></pick-com>
+      <!-- <pick-com v-show="active === 1" :type="'御魂'" @updateCalcObj="updateCalcObj"></pick-com> -->
+      <select-tree
+        v-show="active === 1"
+        :type="'御魂'"
+        @updateCalcObj="updateCalcObj"
+      ></select-tree>
+      <select-tree
+        v-show="active === 2"
+        :type="'主属性'"
+        @updateCalcObj="updateCalcObj"
+      ></select-tree>
+      <limit-com v-show="active === 3" @updateCalcObj="updateCalcObj"></limit-com>
+      <target-com v-show="active === 4" @updateCalcObj="updateCalcObj"></target-com>
     </div>
     <div class="btn-group">
-      <van-button @click="lastStep" type="primary" mini hairline plain>上一步</van-button>
-      <van-button @click="nextStep" type="info" mini hairline plain>下一步</van-button>
+      <van-button @click="lastStep" size="small" hairline color="#7232dd" :disabled="active <= 0">
+        上一步
+      </van-button>
+      <van-button @click="nextStep" size="small" hairline color="#7232dd" :disabled="active >= 4">
+        下一步
+      </van-button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import SelectTree from '@/components/SelectTree';
 import PickCom from '@/components/PickCom';
 import LimitCom from '@/components/LimitCom';
 import TargetCom from '@/components/TargetCom';
+
 export default {
   data() {
     return {
-      active: 2,
+      active: 0,
+      calcObj: {},
     };
   },
+
   components: {
     PickCom,
     SelectTree,
     LimitCom,
     TargetCom,
   },
+  mounted() {
+    this.updateCalcObj('yuhunList', this.yuhunList);
+  },
+  computed: {
+    ...mapState(['yuhunList']),
+  },
   methods: {
     nextStep() {
+      // if (
+      //   (this.calcObj['式神'] === undefined || this.calcObj['式神'] === '请选择') &&
+      //   this.active === 0
+      // ) {
+      //   this.$notify('请先选择目标式神.');
+      //   return;
+      // } else if (
+      //   (this.calcObj['御魂'] === undefined || this.calcObj['御魂'] === '请选择') &&
+      //   this.active === 1
+      // ) {
+      //   this.$notify('请先选择目标御魂.');
+      //   return;
+      // } else if (
+      //   (this.calcObj['主属性'] === undefined || Object.keys(this.calcObj['主属性']).length < 3) &&
+      //   this.active === 2
+      // ) {
+      //   this.$notify('请先选择二四六号位的主属性.');
+      //   return;
+      // }
       this.active += 1;
       this.active = Math.min(this.active, 4);
     },
     lastStep() {
       this.active -= 1;
       this.active = Math.max(this.active, 0);
+    },
+    updateCalcObj(name, value) {
+      this.calcObj[name] = value;
+      console.log(name, value);
+      console.log(this.calcObj);
     },
   },
 };

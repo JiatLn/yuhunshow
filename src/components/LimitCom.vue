@@ -1,24 +1,29 @@
 <template>
   <div id="limit">
-    <van-tabs swipeable>
-      <van-tab v-for="(item, index) in limit" :title="item.name" :key="index">
-        <div class="panel">
-          <span>{{ item.name }}下限</span>
-          <van-stepper v-model="item.minMax[0]" :min="0" input-width="70px" button-size="32px" />
-        </div>
-        <div class="panel">
-          <span>{{ item.name }}上限</span>
-          <van-stepper
-            v-model="item.minMax[1]"
-            :default-value="999999"
-            :min="0"
-            input-width="70px"
-            button-size="32px"
-          />
-        </div>
-        <p style="padding-left: 30px; color:#999">*上限默认999999，不进行设置则忽略</p>
-      </van-tab>
-    </van-tabs>
+    <div
+      v-for="(item, index) in limit"
+      :title="item.name"
+      :key="index"
+      :name="item.name"
+      class="pane"
+    >
+      <van-cell-group class="pane-child">
+        <van-field
+          v-model.lazy="item.minMax[0]"
+          type="number"
+          :label="item.name"
+          placeholder="下限"
+          @change="onChange"
+        />
+        <van-field
+          v-model.lazy="item.minMax[1]"
+          type="number"
+          :label="item.name"
+          placeholder="上限"
+          @change="onChange"
+        />
+      </van-cell-group>
+    </div>
   </div>
 </template>
 
@@ -28,27 +33,40 @@ export default {
     return {
       baoji: [0, 100],
       limit: [
-        { name: '速度', minMax: [0, null] },
-        { name: '暴击', minMax: [0, null] },
-        { name: '暴击伤害', minMax: [0, null] },
-        { name: '攻击', minMax: [0, null] },
-        { name: '生命', minMax: [0, null] },
-        { name: '防御', minMax: [0, null] },
+        { name: '速度', minMax: [undefined, undefined] },
+        { name: '暴击', minMax: [undefined, undefined] },
+        { name: '暴击伤害', minMax: [undefined, undefined] },
+        { name: '攻击', minMax: [undefined, undefined] },
+        { name: '生命', minMax: [undefined, undefined] },
+        { name: '防御', minMax: [undefined, undefined] },
       ],
+      activeName: '速度',
     };
+  },
+  methods: {
+    onChange() {
+      let limit = [];
+      this.limit.map(item => {
+        let { name, minMax } = item;
+        console.log('minMax :', minMax, name);
+        if (!(minMax[0] == undefined && minMax[1] == undefined)) {
+          limit.push({ [name]: minMax });
+        }
+      });
+      console.log('limit :', limit);
+      this.$emit('updateCalcObj', '限制属性', limit);
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
-#limit {
-  .panel {
+#calc {
+  .pane {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 15px;
-    &:first-child {
-      margin-top: 20px;
+    .pane-child {
+      display: flex;
+      // width: 50%;
     }
   }
 }

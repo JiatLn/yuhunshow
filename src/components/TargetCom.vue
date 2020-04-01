@@ -2,7 +2,7 @@
   <div id="target">
     <van-radio-group v-model="targetRadio">
       <van-cell-group v-for="(item, index) in radioList" :key="index">
-        <van-cell :title="item.name" clickable @click="targetRadio = item.id">
+        <van-cell :title="item.name" clickable @click="getTarget(index)">
           <template #right-icon>
             <van-radio :name="item.id" />
           </template>
@@ -10,10 +10,15 @@
       </van-cell-group>
     </van-radio-group>
     <p style="text-align: center">{{ radioList[targetRadio - 1].desc }}</p>
+    <div class="calc">
+      <van-button type="primary" @click="calc" size="small">开始计算</van-button>
+    </div>
   </div>
 </template>
 
 <script>
+// import MitamaComb from '@/utils/calc';
+
 let radioList = [
   {
     name: '输出伤害',
@@ -42,9 +47,25 @@ export default {
     return {
       radioList,
       targetRadio: 1,
+      target: '输出伤害',
     };
+  },
+
+  methods: {
+    getTarget(index) {
+      this.targetRadio = this.radioList[index].id;
+      this.target = this.radioList[index].name;
+    },
+    calc() {
+      this.$emit('updateCalcObj', '目标', this.target);
+    },
   },
 };
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.calc {
+  display: flex;
+  justify-content: center;
+}
+</style>

@@ -8,28 +8,28 @@
 </template>
 
 <script>
-import { mainAttrsList, mapAttrs } from '@/data/dataFormat';
+import { mainAttrsList, mataList, mapAttrs } from '@/data/dataFormat';
 export default {
+  props: ['type'],
   data() {
     return {
-      items: mainAttrsList,
+      items: this.type === '御魂' ? mataList : mainAttrsList,
       activeIds: [],
       activeIndex: 0,
-      chooseMainAttr: {},
     };
   },
   methods: {
     getMainAttrsList() {
-      let chooseMainAttr = {};
+      let mainAttrs = {};
       this.activeIds.forEach(item => {
         let posid = parseInt((item % 100) / 10);
-        if (chooseMainAttr[posid] == undefined) {
-          chooseMainAttr[posid] = [mapAttrs[item]];
+        if (mainAttrs[posid] == undefined) {
+          mainAttrs[posid] = [mapAttrs[item]];
         } else {
-          chooseMainAttr[posid].push(mapAttrs[item]);
+          mainAttrs[posid].push(mapAttrs[item]);
         }
       });
-      this.chooseMainAttr = chooseMainAttr;
+      if (this.type == '主属性') this.$emit('updateCalcObj', '主属性', mainAttrs);
     },
   },
 };
