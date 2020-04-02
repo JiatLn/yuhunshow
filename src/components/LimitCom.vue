@@ -39,6 +39,9 @@ export default {
         { name: '攻击', minMax: [undefined, undefined] },
         { name: '生命', minMax: [undefined, undefined] },
         { name: '防御', minMax: [undefined, undefined] },
+        { name: '效果命中', minMax: [undefined, undefined] },
+        { name: '效果抵抗', minMax: [undefined, undefined] },
+        { name: '伤害输出', minMax: [undefined, undefined] },
       ],
       activeName: '速度',
     };
@@ -48,12 +51,10 @@ export default {
       let limit = [];
       this.limit.map(item => {
         let { name, minMax } = item;
-        console.log('minMax :', minMax, name);
         if (!(minMax[0] == undefined && minMax[1] == undefined)) {
           limit.push({ [name]: minMax });
         }
       });
-      console.log('limit :', limit);
       this.$emit('updateCalcObj', '限制属性', limit);
     },
   },

@@ -8,12 +8,11 @@
       <van-step>计算指标</van-step>
     </van-steps>
     <div class="calc-content">
-      <pick-com v-show="active === 0" :type="'式神'" @updateCalcObj="updateCalcObj"></pick-com>
-      <!-- <pick-com v-show="active === 1" :type="'御魂'" @updateCalcObj="updateCalcObj"></pick-com> -->
+      <pick-com v-show="active === 0" @updateCalcObj="updateCalcObj"></pick-com>
       <choose-com v-show="active === 1" @updateCalcObj="updateCalcObj"></choose-com>
       <select-tree v-show="active === 2" @updateCalcObj="updateCalcObj"></select-tree>
       <limit-com v-show="active === 3" @updateCalcObj="updateCalcObj"></limit-com>
-      <target-com v-show="active === 4" @updateCalcObj="updateCalcObj"></target-com>
+      <target-com v-show="active === 4" @updateCalcObj="updateCalcObj" :obj="calcObj"></target-com>
     </div>
     <div class="btn-group">
       <van-button @click="lastStep" size="small" hairline color="#7232dd" :disabled="active <= 0">
@@ -38,7 +37,7 @@ import TargetCom from '@/components/TargetCom';
 export default {
   data() {
     return {
-      active: 1,
+      active: 0,
       calcObj: {},
     };
   },
@@ -86,8 +85,6 @@ export default {
     },
     updateCalcObj(name, value) {
       this.calcObj[name] = value;
-      console.log(name, value);
-      console.log(this.calcObj);
     },
   },
 };
@@ -96,7 +93,7 @@ export default {
 <style lang="less" scoped>
 #calc {
   .calc-content {
-    min-height: calc(100vh - 380px);
+    min-height: calc(100vh - 280px);
   }
   .btn-group {
     margin: 0 auto;

@@ -35,16 +35,36 @@
           v-model="radio4"
           direction="horizontal"
           v-show="typeList[index] != '首领御魂'"
+          @change="onChange($event, 4)"
         >
           <p v-for="(item, index) in filterYhType(typeList[index])" :key="index">
-            <van-radio :name="item + ' 4'" @click="radioClick">{{ item }}</van-radio>
+            <van-radio :name="item + ' 4'" @click="radioClick(4)" :disabled="radio2.length >= 2">
+              {{ item }}
+            </van-radio>
           </p>
         </van-radio-group>
         <van-divider>二件套</van-divider>
-        <van-radio-group v-model="radio2" direction="horizontal">
+        <van-radio-group v-model="radio2" @change="onChange($event, 2)" direction="horizontal">
+          <p>
+            <van-checkbox-group v-model="radio2" :max="3 - Number(radio4 != '') * 2">
+              <van-checkbox
+                :name="typeList[index] + ' 2'"
+                @click="radioClick(2)"
+                :disabled="radio2.length + Number(radio4 != '') * 2 > 2"
+                checked-color="#07c160"
+              >
+                {{ typeList[index] }}
+              </van-checkbox>
+            </van-checkbox-group>
+          </p>
           <p v-for="(item, index) in filterYhType(typeList[index])" :key="index">
             <van-checkbox-group v-model="radio2" :max="3 - Number(radio4 != '') * 2">
-              <van-checkbox :name="item + ' 2'" @click="radioClick" checked-color="#07c160">
+              <van-checkbox
+                :name="item + ' 2'"
+                @click="radioClick(2)"
+                :disabled="radio2.length + Number(radio4 != '') * 2 > 2"
+                checked-color="#07c160"
+              >
                 {{ item }}
               </van-checkbox>
             </van-checkbox-group>
@@ -86,15 +106,22 @@ export default {
         .map(item => item.name);
     },
     radioClick() {
-      // setTimeout(() => {
-      //   this.showPop = !this.showPop;
-      // }, 300);
+      setTimeout(() => {
+        this.showPop = !this.showPop;
+      }, 250);
     },
     close(index) {
       if (index == 4) {
         this.radio4 = '';
       } else {
         this.radio2.splice(index, 1);
+      }
+    },
+    onChange(e, type) {
+      if (type === 4) {
+        this.$emit('updateCalcObj', '四件套', e);
+      } else if (type === 2) {
+        this.$emit('updateCalcObj', '二件套', e);
       }
     },
   },
@@ -122,6 +149,9 @@ export default {
     & > * {
       margin: 0 12px;
     }
+  }
+  .van-divider {
+    margin: 0 0 16px 0 !important;
   }
 }
 </style>

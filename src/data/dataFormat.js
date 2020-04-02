@@ -153,6 +153,49 @@ let mainAttrsList = [
   },
 ];
 
+let targetList = [
+  {
+    name: '输出伤害',
+    id: 1,
+    desc: '输出伤害 = 攻击 × 暴击伤害',
+  },
+  {
+    name: '双重暴击',
+    id: 2,
+    desc: '双重暴击 = 攻击 × 暴击伤害 × 暴击伤害',
+  },
+  {
+    name: '生命治疗',
+    id: 3,
+    desc: '生命治疗 = 生命 × 暴击伤害',
+  },
+  {
+    name: '命抗双修',
+    id: 4,
+    desc: '命抗双修 = 效果命中 + 效果抵抗',
+  },
+  {
+    name: '攻击',
+    id: 5,
+    desc: '-',
+  },
+  {
+    name: '生命',
+    id: 6,
+    desc: '-',
+  },
+  {
+    name: '暴击',
+    id: 7,
+    desc: '-',
+  },
+  {
+    name: '暴击伤害',
+    id: 8,
+    desc: '-',
+  },
+];
+
 let childrenOf4 = [];
 yuhunMap.map(item => {
   childrenOf4.push({
@@ -216,4 +259,4 @@ for (let o in heroTree) {
   shishenTree.push({ text: o, children: heroTree[o] });
 }
 
-export { mainAttrsList, mapAttrs, yuhunTree, shishenTree, mataList, typeList };
+export { mainAttrsList, mapAttrs, yuhunTree, shishenTree, mataList, typeList, targetList };
