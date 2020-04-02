@@ -1,4 +1,7 @@
 import heroTree from '@/data/hero';
+import yuhunMap from '@/data/yuhunMap';
+
+let typeList = ['暴击加成', '攻击加成', '首领御魂', '效果命中', '效果抵抗', '生命加成', '防御加成'];
 
 let yuhunTree = [
   {
@@ -150,11 +153,18 @@ let mainAttrsList = [
   },
 ];
 
+let childrenOf4 = [];
+yuhunMap.map(item => {
+  childrenOf4.push({
+    text: item.name,
+    id: item.id,
+  });
+});
 let mataList = [
   {
     text: '四件套',
     id: 4,
-    children: yuhunTree[0].children,
+    children: childrenOf4,
   },
   {
     text: '二件套',
@@ -206,4 +216,4 @@ for (let o in heroTree) {
   shishenTree.push({ text: o, children: heroTree[o] });
 }
 
-export { mainAttrsList, mapAttrs, yuhunTree, shishenTree, mataList };
+export { mainAttrsList, mapAttrs, yuhunTree, shishenTree, mataList, typeList };

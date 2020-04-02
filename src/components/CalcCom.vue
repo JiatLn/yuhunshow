@@ -10,16 +10,8 @@
     <div class="calc-content">
       <pick-com v-show="active === 0" :type="'式神'" @updateCalcObj="updateCalcObj"></pick-com>
       <!-- <pick-com v-show="active === 1" :type="'御魂'" @updateCalcObj="updateCalcObj"></pick-com> -->
-      <select-tree
-        v-show="active === 1"
-        :type="'御魂'"
-        @updateCalcObj="updateCalcObj"
-      ></select-tree>
-      <select-tree
-        v-show="active === 2"
-        :type="'主属性'"
-        @updateCalcObj="updateCalcObj"
-      ></select-tree>
+      <choose-com v-show="active === 1" @updateCalcObj="updateCalcObj"></choose-com>
+      <select-tree v-show="active === 2" @updateCalcObj="updateCalcObj"></select-tree>
       <limit-com v-show="active === 3" @updateCalcObj="updateCalcObj"></limit-com>
       <target-com v-show="active === 4" @updateCalcObj="updateCalcObj"></target-com>
     </div>
@@ -37,21 +29,23 @@
 <script>
 import { mapState } from 'vuex';
 
-import SelectTree from '@/components/SelectTree';
 import PickCom from '@/components/PickCom';
+import ChooseCom from '@/components/ChooseCom';
+import SelectTree from '@/components/SelectTree';
 import LimitCom from '@/components/LimitCom';
 import TargetCom from '@/components/TargetCom';
 
 export default {
   data() {
     return {
-      active: 0,
+      active: 1,
       calcObj: {},
     };
   },
 
   components: {
     PickCom,
+    ChooseCom,
     SelectTree,
     LimitCom,
     TargetCom,
@@ -102,7 +96,7 @@ export default {
 <style lang="less" scoped>
 #calc {
   .calc-content {
-    height: 300px;
+    min-height: calc(100vh - 380px);
   }
   .btn-group {
     margin: 0 auto;

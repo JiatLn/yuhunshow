@@ -1,7 +1,10 @@
 <template>
   <div id="calc">
     <van-collapse v-model="activeName">
-      <van-collapse-item title="散件一速" name="1">
+      <van-collapse-item title="面板计算" name="1">
+        <calc-com></calc-com>
+      </van-collapse-item>
+      <van-collapse-item title="散件一速" name="2">
         <div v-if="maxSpeedList.length">
           <van-divider>{{ maxSpeed }}</van-divider>
           <ul class="yuhun-box">
@@ -17,10 +20,7 @@
         </div>
         <p v-else>请先上传json文件</p>
       </van-collapse-item>
-      <van-collapse-item title="面板计算" name="2">
-        <calc-com></calc-com>
-      </van-collapse-item>
-      <van-collapse-item title="标题3" name="3">内容</van-collapse-item>
+      <!-- <van-collapse-item title="标题3" name="3">内容</van-collapse-item> -->
     </van-collapse>
     <div>
       <!-- 遮罩 -->
@@ -55,7 +55,7 @@ export default {
       maxSpeed: 0,
       showPop: false,
       showItem: {},
-      activeName: ['2'],
+      activeName: ['1'],
     };
   },
   components: {

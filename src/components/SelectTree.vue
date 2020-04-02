@@ -8,12 +8,11 @@
 </template>
 
 <script>
-import { mainAttrsList, mataList, mapAttrs } from '@/data/dataFormat';
+import { mainAttrsList, mapAttrs } from '@/data/dataFormat';
 export default {
-  props: ['type'],
   data() {
     return {
-      items: this.type === '御魂' ? mataList : mainAttrsList,
+      items: mainAttrsList,
       activeIds: [],
       activeIndex: 0,
     };
@@ -29,7 +28,7 @@ export default {
           mainAttrs[posid].push(mapAttrs[item]);
         }
       });
-      if (this.type == '主属性') this.$emit('updateCalcObj', '主属性', mainAttrs);
+      this.$emit('updateCalcObj', '主属性', mainAttrs);
     },
   },
 };
