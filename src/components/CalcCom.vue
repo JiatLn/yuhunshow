@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import PickCom from '@/components/PickCom';
 import ChooseCom from '@/components/ChooseCom';
 import SelectTree from '@/components/SelectTree';
@@ -41,19 +39,12 @@ export default {
       calcObj: {},
     };
   },
-
   components: {
     PickCom,
     ChooseCom,
     SelectTree,
     LimitCom,
     TargetCom,
-  },
-  mounted() {
-    this.updateCalcObj('yuhunList', this.yuhunList);
-  },
-  computed: {
-    ...mapState(['yuhunList']),
   },
   methods: {
     nextStep() {

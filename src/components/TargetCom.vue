@@ -17,11 +17,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 // import MitamaComb from '@/utils/calc';
 import { targetList } from '@/data/dataFormat';
 
 export default {
   props: ['obj'],
+
   data() {
     return {
       radioList: targetList,
@@ -29,7 +32,9 @@ export default {
       target: '输出伤害',
     };
   },
-
+  computed: {
+    ...mapState(['yuhunList']),
+  },
   methods: {
     getTarget(index) {
       this.targetRadio = this.radioList[index].id;
@@ -39,6 +44,7 @@ export default {
       this.$emit('updateCalcObj', '目标', this.target);
     },
     calc() {
+      this.$emit('updateCalcObj', 'yuhunList', this.yuhunList);
       console.log('calc', this.obj);
     },
   },
