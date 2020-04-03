@@ -11,7 +11,9 @@
     </van-radio-group>
     <p style="text-align: center">{{ radioList[targetRadio - 1].desc }}</p>
     <div class="calc">
-      <van-button type="primary" @click="calc" size="small">开始计算</van-button>
+      <van-button @click="calc" size="small" color="linear-gradient(to right, #4bb0ff, #6149f6)">
+        开始计算
+      </van-button>
     </div>
   </div>
 </template>
@@ -19,7 +21,7 @@
 <script>
 import { mapState } from 'vuex';
 
-// import MitamaComb from '@/utils/calc';
+import MitamaComb from '@/utils/calc';
 import { targetList } from '@/data/dataFormat';
 
 export default {
@@ -45,7 +47,12 @@ export default {
     },
     calc() {
       this.$emit('updateCalcObj', 'yuhunList', this.yuhunList);
-      console.log('calc', this.obj);
+      let calc = new MitamaComb(this.obj);
+      console.log(calc);
+      calc.sayHello();
+      calc.filterLocAndType();
+      let combo = calc.getMitamaCombos();
+      console.log('combo :', combo);
     },
   },
 };

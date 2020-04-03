@@ -3,7 +3,7 @@
     ref="picker"
     show-toolbar
     :columns="columns"
-    visible-item-count="6"
+    visible-item-count="5"
     @change="getPicker"
   >
     <div slot="default">
