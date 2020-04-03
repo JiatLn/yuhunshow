@@ -1,4 +1,41 @@
+import _ from 'lodash';
+
 let yuhunMap = [
+  {
+    name: '攻击加成',
+    id: 0,
+    type: '攻击加成',
+  },
+  {
+    name: '暴击加成',
+    id: 1,
+    type: '暴击加成',
+  },
+  {
+    name: '生命加成',
+    id: 2,
+    type: '生命加成',
+  },
+  {
+    name: '防御加成',
+    id: 3,
+    type: '防御加成',
+  },
+  {
+    name: '效果命中',
+    id: 4,
+    type: '效果命中',
+  },
+  {
+    name: '效果抵抗',
+    id: 5,
+    type: '效果抵抗',
+  },
+  {
+    name: '首领御魂',
+    id: 6,
+    type: '首领御魂',
+  },
   {
     name: '招财猫',
     id: 300010,
@@ -258,5 +295,9 @@ let yuhunMap = [
     icon: require('@/assets/img/yuhun/300076.png'),
   },
 ];
+
+yuhunMap = _.sortBy(yuhunMap, o => {
+  return o.type;
+});
 
 export default yuhunMap;
