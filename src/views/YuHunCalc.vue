@@ -32,7 +32,7 @@
           </li>
           <li v-for="(v, k, i) in showItem.attrs" :key="i">
             <span>{{ k }}</span>
-            <span>+{{ v | ff(k, 2, '%') }}</span>
+            <span>+{{ v | ff(k, 2) }}</span>
           </li>
         </ul>
       </van-popup>

@@ -9,7 +9,7 @@
     >
       <div class="yh-box">
         <ul>
-          <li v-for="(v, k, i) in item.attrs" :key="i">{{ k }}: {{ v | ff(k, 2, '%') }}</li>
+          <li v-for="(v, k, i) in item.attrs" :key="i">{{ k }}: {{ v | ff(k, 2) }}</li>
         </ul>
       </div>
     </van-panel>
