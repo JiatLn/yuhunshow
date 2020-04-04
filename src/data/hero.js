@@ -975,4 +975,4 @@ HeroList.map(hero => {
   heroTree[hero.level].push({ text: hero.name });
 });
 
-export default heroTree;
+export { heroTree, HeroList };

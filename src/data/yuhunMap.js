@@ -7,9 +7,9 @@ let yuhunMap = [
     type: '攻击加成',
   },
   {
-    name: '暴击加成',
+    name: '暴击',
     id: 1,
-    type: '暴击加成',
+    type: '暴击',
   },
   {
     name: '生命加成',
@@ -45,13 +45,13 @@ let yuhunMap = [
   {
     name: '破势',
     id: 300030,
-    type: '暴击加成',
+    type: '暴击',
     icon: require('@/assets/img/yuhun/300030.png'),
   },
   {
     name: '针女',
     id: 300036,
-    type: '暴击加成',
+    type: '暴击',
     icon: require('@/assets/img/yuhun/300036.png'),
   },
   {
@@ -75,7 +75,7 @@ let yuhunMap = [
   {
     name: '三味',
     id: 300007,
-    type: '暴击加成',
+    type: '暴击',
     icon: require('@/assets/img/yuhun/300007.png'),
   },
   {
@@ -99,7 +99,7 @@ let yuhunMap = [
   {
     name: '网切',
     id: 300026,
-    type: '暴击加成',
+    type: '暴击',
     icon: require('@/assets/img/yuhun/300026.png'),
   },
   {
@@ -189,7 +189,7 @@ let yuhunMap = [
   {
     name: '伤魂鸟',
     id: 300029,
-    type: '暴击加成',
+    type: '暴击',
     icon: require('@/assets/img/yuhun/300029.png'),
   },
   {
@@ -213,7 +213,7 @@ let yuhunMap = [
   {
     name: '镇墓兽',
     id: 300031,
-    type: '暴击加成',
+    type: '暴击',
     icon: require('@/assets/img/yuhun/300031.png'),
   },
   {
@@ -267,7 +267,7 @@ let yuhunMap = [
   {
     name: '青女房',
     id: 300075,
-    type: '暴击加成',
+    type: '暴击',
     icon: require('@/assets/img/yuhun/300075.png'),
   },
   {
