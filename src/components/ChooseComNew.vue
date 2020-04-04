@@ -1,12 +1,12 @@
 <template>
   <div id="choose">
     <van-divider>御魂组合</van-divider>
-    <van-radio-group v-model="taoz" direction="horizontal" class="radio-group" @change="onChange">
+    <van-radio-group v-model="mode" direction="horizontal" class="radio-group" @change="onChange">
       <van-radio name="4+2">4 + 2</van-radio>
       <van-radio name="2+2+2">2 + 2 + 2</van-radio>
     </van-radio-group>
     <br />
-    <van-dropdown-menu v-show="taoz == '4+2'">
+    <van-dropdown-menu v-show="mode == '4+2'">
       <van-dropdown-item
         :title="combo1[4] != 0 ? combo1[4] + '×4' : '选择四件套'"
         v-model="combo1[4]"
@@ -20,7 +20,7 @@
         @change="onChange"
       />
     </van-dropdown-menu>
-    <van-dropdown-menu v-show="taoz == '2+2+2'">
+    <van-dropdown-menu v-show="mode == '2+2+2'">
       <van-dropdown-item
         v-for="(value, key, index) in combo2"
         :key="index"
@@ -52,7 +52,7 @@ export default {
       yuhun: yuhunMap.map(item => {
         return { name: item.name, type: item.type };
       }),
-      taoz: '4+2',
+      mode: '4+2',
       four: 0,
       two: 0,
       yuhunOpt,
@@ -70,11 +70,12 @@ export default {
   },
   methods: {
     onChange() {
-      if (this.taoz == '4+2') {
+      if (this.mode == '4+2') {
         this.$emit('updateCalcObj', '套装', this.combo1);
       } else {
         this.$emit('updateCalcObj', '套装', this.combo2);
       }
+      this.$emit('updateCalcObj', 'mode', this.mode);
     },
   },
 };

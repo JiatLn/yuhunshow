@@ -48,11 +48,10 @@ export default {
   },
   methods: {
     onChange() {
-      let limit = [];
+      let limit = {};
       this.limit.map(item => {
-        let { name, minMax } = item;
-        if (!(minMax[0] == undefined && minMax[1] == undefined)) {
-          limit.push({ [name]: minMax });
+        if (!(item.minMax[0] == undefined && item.minMax[1] == undefined)) {
+          limit[item.name] = item.minMax;
         }
       });
       this.$emit('updateCalcObj', '限制属性', limit);

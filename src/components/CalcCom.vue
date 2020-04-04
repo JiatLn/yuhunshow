@@ -35,7 +35,7 @@ import TargetCom from '@/components/TargetCom';
 export default {
   data() {
     return {
-      curStep: 3,
+      curStep: 0,
       calcObj: {
         yuhunList: [],
         式神: '鬼切',
@@ -45,8 +45,10 @@ export default {
           4: ['攻击加成'],
           6: ['暴击', '暴击伤害'],
         },
-        限制属性: [],
+        限制属性: {},
         目标: '输出伤害',
+        mode: '4+2',
+        基础面板: {},
       },
     };
   },

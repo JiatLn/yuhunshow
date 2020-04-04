@@ -50,9 +50,7 @@ export default {
       let calc = new MitamaComb(this.obj);
       console.log(calc);
       calc.sayHello();
-      calc.filterLocAndType();
-      let combo = calc.getMitamaCombos();
-      console.log('combo :', combo);
+      calc.testOutput();
     },
   },
 };
