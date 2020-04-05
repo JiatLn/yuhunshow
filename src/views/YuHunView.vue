@@ -107,48 +107,48 @@ export default {
       switch (newItem.pos) {
         case 1:
           newItem.mainAttr = '攻击';
-          newItem.attrs.攻击 -= 486;
+          // newItem.attrs.攻击 -= 486;
           break;
         case 3:
           newItem.mainAttr = '防御';
-          newItem.attrs.防御 -= 104;
+          // newItem.attrs.防御 -= 104;
           break;
         case 5:
           newItem.mainAttr = '生命';
-          newItem.attrs.生命 -= 2052;
+          // newItem.attrs.生命 -= 2052;
           break;
         default:
           if (newItem.attrs.速度 >= 57) {
             newItem.mainAttr = '速度';
-            newItem.attrs.速度 -= 57;
+            // newItem.attrs.速度 -= 57;
           }
           if (newItem.attrs.暴击伤害 >= 0.89) {
             newItem.mainAttr = '暴击伤害';
-            newItem.attrs.暴击伤害 -= 0.89;
+            // newItem.attrs.暴击伤害 -= 0.89;
           }
           if (newItem.attrs.暴击 >= 0.55) {
             newItem.mainAttr = '暴击';
-            newItem.attrs.暴击 -= 0.55;
+            // newItem.attrs.暴击 -= 0.55;
           }
           if (newItem.attrs.攻击加成 >= 0.55) {
             newItem.mainAttr = '攻击加成';
-            newItem.attrs.攻击加成 -= 0.55;
+            // newItem.attrs.攻击加成 -= 0.55;
           }
           if (newItem.attrs.生命加成 >= 0.55) {
             newItem.mainAttr = '生命加成';
-            newItem.attrs.生命加成 -= 0.55;
+            // newItem.attrs.生命加成 -= 0.55;
           }
           if (newItem.attrs.防御加成 >= 0.55) {
             newItem.mainAttr = '防御加成';
-            newItem.attrs.防御加成 -= 0.55;
+            // newItem.attrs.防御加成 -= 0.55;
           }
           if (newItem.attrs.效果命中 >= 0.55) {
             newItem.mainAttr = '效果命中';
-            newItem.attrs.效果命中 -= 0.55;
+            // newItem.attrs.效果命中 -= 0.55;
           }
           if (newItem.attrs.效果抵抗 >= 0.55) {
             newItem.mainAttr = '效果抵抗';
-            newItem.attrs.效果抵抗 -= 0.55;
+            // newItem.attrs.效果抵抗 -= 0.55;
           }
           break;
       }

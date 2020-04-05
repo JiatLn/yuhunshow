@@ -35,13 +35,13 @@ export default {
       limit: [
         { name: '速度', minMax: [undefined, undefined] },
         { name: '暴击', minMax: [undefined, undefined] },
-        { name: '暴击伤害', minMax: [undefined, undefined] },
-        { name: '攻击', minMax: [undefined, undefined] },
-        { name: '生命', minMax: [undefined, undefined] },
-        { name: '防御', minMax: [undefined, undefined] },
-        { name: '效果命中', minMax: [undefined, undefined] },
-        { name: '效果抵抗', minMax: [undefined, undefined] },
-        { name: '伤害输出', minMax: [undefined, undefined] },
+        // { name: '暴击伤害', minMax: [undefined, undefined] },
+        // { name: '攻击', minMax: [undefined, undefined] },
+        // { name: '生命', minMax: [undefined, undefined] },
+        // { name: '防御', minMax: [undefined, undefined] },
+        // { name: '效果命中', minMax: [undefined, undefined] },
+        // { name: '效果抵抗', minMax: [undefined, undefined] },
+        { name: '输出伤害', minMax: [undefined, undefined] },
       ],
       activeName: '速度',
     };
@@ -51,10 +51,20 @@ export default {
       let limit = {};
       this.limit.map(item => {
         if (!(item.minMax[0] == undefined && item.minMax[1] == undefined)) {
-          limit[item.name] = item.minMax;
+          if (['暴击', '暴击伤害', '攻击加成'].includes(item.name)) {
+            limit[item.name] = {
+              min: Number(item.minMax[0]) / 100 || 0,
+              max: Number(item.minMax[1]) / 100 || Infinity,
+            };
+          } else {
+            limit[item.name] = {
+              min: Number(item.minMax[0]) || 0,
+              max: Number(item.minMax[1]) || Infinity,
+            };
+          }
         }
       });
-      this.$emit('updateCalcObj', '限制属性', limit);
+      this.$emit('updateCalcObj', '属性限制', limit);
     },
   },
 };
