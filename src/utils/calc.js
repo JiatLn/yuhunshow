@@ -34,6 +34,7 @@ class MitamaComb {
     this.l6PropLimit = calcObj.主属性[6];
     this.套装 = calcObj.套装;
     this.属性限制 = calcObj.属性限制;
+    this.面板限制 = calcObj.面板限制;
     this.mode = calcObj.mode;
     this.totalComb = 0;
     this.baseAttack = calcObj.基础面板.攻击;
@@ -182,12 +183,19 @@ class MitamaComb {
     // 按组合属性上下限过滤
     mitamaCombList = this.filterMitama(mitamaCombList);
     // 按输出伤害过滤
+    mitamaCombList = this.fitDamageLimit(mitamaCombList);
 
-    // let maxDamage = 0;
-    for (const cb of mitamaCombList) {
-      console.log('cb :', cb);
-      break;
+    let maxDamage = 0;
+    let maxMitamaComb = {};
+    for (const mcb of mitamaCombList) {
+      let currentDamage = this.calcTotalDamage(mcb);
+      if (currentDamage > maxDamage) {
+        maxDamage = currentDamage;
+        maxMitamaComb = mcb;
+      }
     }
+    console.log('最优组合 :', maxMitamaComb);
+    console.log('最高面板 :', maxDamage);
     console.log('over');
   }
 
@@ -263,6 +271,15 @@ class MitamaComb {
         }
       }
 
+      // 计算属性要加上式神本身的属性
+      if (propType == '暴击') {
+        propValue += this.baseCritRate;
+      } else if (propType == '速度') {
+        propValue += this.baseSpeed;
+      } else if (propType == '暴击伤害') {
+        propValue += this.baseCritPower;
+      }
+
       if (propValue >= minValue && propValue <= maxValue) {
         yield mitamaData;
       }
@@ -295,10 +312,12 @@ class MitamaComb {
   }
 
   *fitDamageLimit(mitamaCombList) {
-    let damageLimit = [0, Infinity];
     for (const mitamaComb of mitamaCombList) {
       let totalDamage = this.calcTotalDamage(mitamaComb);
-      if (totalDamage >= damageLimit[0] && totalDamage <= damageLimit[1]) {
+      if (
+        totalDamage >= (this.面板限制['输出']['min'] || 0) &&
+        totalDamage <= (this.面板限制['输出']['max'] || Infinity)
+      ) {
         yield mitamaComb;
       }
     }
