@@ -2,7 +2,7 @@
   <div class="yuhun">
     <div class="upload">
       <van-panel title="上传御魂文件" desc="file like yuhun.json">
-        <div @change="uploadFile">
+        <div @change="uploadFile" class="upload-input">
           <input type="file" accept=".json" />
         </div>
       </van-panel>
@@ -165,6 +165,10 @@ export default {
     display: flex;
     justify-content: center;
     margin: 10px;
+  }
+  .upload-input {
+    margin: 0 20px;
+    padding: 16px 8px;
   }
 }
 </style>

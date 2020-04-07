@@ -8,8 +8,8 @@
       @change="getPicker"
     >
       <div slot="default">
-        式神指定：
-        <span style="color: red">{{ picker }}</span>
+        <span>目标式神：</span>
+        <span>{{ picker }}</span>
       </div>
     </van-picker>
     <van-panel :title="picker" v-show="picker != '请选择'">
@@ -56,6 +56,14 @@ export default {
 
 <style lang="less" scoped>
 #pick {
+  span {
+    font-size: 14px;
+    color: red;
+    &:first-child {
+      margin-left: 15px;
+      color: black;
+    }
+  }
   .pick-pane {
     padding: 14px 0;
     ul {
@@ -63,9 +71,9 @@ export default {
       flex-wrap: wrap;
       justify-content: space-between;
       li {
-        width: 40%;
+        width: 33%;
         font-size: 14px;
-        margin: 0 5%;
+        margin: 2px 8%;
       }
     }
   }

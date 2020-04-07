@@ -3,18 +3,18 @@
     <van-divider>御魂组合</van-divider>
     <van-radio-group v-model="mode" direction="horizontal" class="radio-group" @change="onChange">
       <van-radio name="4+2">4 + 2</van-radio>
-      <van-radio name="2+2+2">2 + 2 + 2</van-radio>
+      <van-radio name="2+2+2" disabled>2 + 2 + 2</van-radio>
     </van-radio-group>
     <br />
     <van-dropdown-menu v-show="mode == '4+2'">
       <van-dropdown-item
-        :title="combo1[4] != 0 ? combo1[4] + '×4' : '选择四件套'"
+        :title="combo1[4] != undefined ? combo1[4] + '×4' : '选择四件套'"
         v-model="combo1[4]"
         :options="yuhunOpt"
         @change="onChange"
       />
       <van-dropdown-item
-        :title="combo1[2] != 0 ? combo1[2] + '×2' : '选择二件套'"
+        :title="combo1[2] != undefined ? combo1[2] + '×2' : '选择二件套'"
         v-model="combo1[2]"
         :options="yuhunOpt"
         @change="onChange"
@@ -24,7 +24,7 @@
       <van-dropdown-item
         v-for="(value, key, index) in combo2"
         :key="index"
-        :title="value != 0 ? value + '×2' : '选择二件套'"
+        :title="value != undefined ? value + '×2' : '选择二件套'"
         v-model="combo2[key]"
         :options="yuhunOpt"
         @change="onChange"
@@ -58,13 +58,13 @@ export default {
       yuhunOpt,
       typeList,
       combo1: {
-        4: 0,
-        2: 0,
+        4: undefined,
+        2: undefined,
       },
       combo2: {
-        1: 0,
-        2: 0,
-        3: 0,
+        1: undefined,
+        2: undefined,
+        3: undefined,
       },
     };
   },

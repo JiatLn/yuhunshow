@@ -25,6 +25,7 @@
         />
       </van-cell-group>
     </div>
+    <br />
     <van-divider>面板限制</van-divider>
     <div
       v-for="item in paneLimit"
@@ -74,7 +75,7 @@ export default {
     onChangePropLimit() {
       let limit = {};
       this.propLimit.map(item => {
-        if (!(item.minMax[0] == undefined && item.minMax[1] == undefined)) {
+        if (item.minMax[0] != undefined || item.minMax[1] != undefined) {
           if (['暴击', '暴击伤害', '攻击加成'].includes(item.name)) {
             limit[item.name] = {
               min: Number(item.minMax[0]) / 100 || 0,
@@ -93,7 +94,7 @@ export default {
     onChangePaneLimit() {
       let limit = {};
       this.paneLimit.map(item => {
-        if (!(item.minMax[0] == undefined && item.minMax[1] == undefined)) {
+        if (item.minMax[0] != undefined || item.minMax[1] != undefined) {
           limit[item.name] = {
             min: Number(item.minMax[0]) || 0,
             max: Number(item.minMax[1]) || Infinity,
@@ -107,13 +108,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#calc {
-  .pane {
+.pane {
+  display: flex;
+  .pane-child {
     display: flex;
-    .pane-child {
-      display: flex;
-      // width: 50%;
-    }
+    // width: 50%;
   }
+}
+
+.van-divider {
+  margin: 0 0 16px 0 !important;
 }
 </style>
