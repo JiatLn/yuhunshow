@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <van-nav-bar title="御魂show" :fixed="true" left-arrow @click-left="goBack" />
-    <div class="main">
-      <router-view />
+    <div id="content">
+      <van-nav-bar title="御魂show" :fixed="true" left-arrow @click-left="goBack" />
+      <div class="main">
+        <router-view />
+      </div>
+      <tabbar-com></tabbar-com>
     </div>
-    <tabbar-com></tabbar-com>
   </div>
 </template>
 
@@ -42,8 +44,34 @@ export default {
 
 <style lang="less">
 #app {
-  .van-nav-bar {
-    z-index: 999;
+  box-sizing: border-box;
+
+  @media only screen and (min-width: 500px) {
+    #content {
+      @margin: 60px;
+      border: 1px solid red;
+      margin: @margin auto;
+      width: 414px;
+      height: 736px;
+      overflow: scroll;
+      // 隐藏滚动条但是可以滚动
+      &::-webkit-scrollbar {
+        width: 0 !important;
+      }
+      overflow: -moz-scrollbars-none;
+      -ms-overflow-style: none;
+      .van-nav-bar {
+        z-index: 999;
+        width: 414px;
+        top: 1px + @margin;
+        left: auto;
+      }
+      .van-tabbar {
+        width: 414px;
+        top: 736px - 50px + @margin;
+        left: auto;
+      }
+    }
   }
   .main {
     margin: 46px 0 50px 0;
