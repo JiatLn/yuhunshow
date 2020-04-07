@@ -121,7 +121,7 @@ export default {
 
 <style lang="less" scoped>
 .calc-content {
-  min-height: calc(100vh - 222px);
+  min-height: 500px;
 }
 .btn-group {
   margin: 0 auto;

@@ -49,7 +49,8 @@ export default {
   @media only screen and (min-width: 500px) {
     #content {
       @margin: 60px;
-      border: 1px solid red;
+      // border: 1px solid red;
+      box-shadow: 2px 2px 5px #333333;
       margin: @margin auto;
       width: 414px;
       height: 736px;
@@ -63,7 +64,7 @@ export default {
       .van-nav-bar {
         z-index: 999;
         width: 414px;
-        top: 1px + @margin;
+        top: 0 + @margin;
         left: auto;
       }
       .van-tabbar {
