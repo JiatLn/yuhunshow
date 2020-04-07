@@ -312,12 +312,11 @@ class MitamaComb {
   }
 
   *fitDamageLimit(mitamaCombList) {
+    let damageLow = this.面板限制?.输出?.min || 0;
+    let damageUp = this.面板限制?.输出?.max || Infinity;
     for (const mitamaComb of mitamaCombList) {
       let totalDamage = this.calcTotalDamage(mitamaComb);
-      if (
-        totalDamage >= (this.面板限制['输出']['min'] || 0) &&
-        totalDamage <= (this.面板限制['输出']['max'] || Infinity)
-      ) {
+      if (totalDamage >= damageLow && totalDamage <= damageUp) {
         yield mitamaComb;
       }
     }
