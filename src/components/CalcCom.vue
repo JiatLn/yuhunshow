@@ -79,7 +79,6 @@ export default {
           }
           break;
         case 1:
-          console.log('this.calcObj.套装 :', this.calcObj.套装);
           if (
             (this.calcObj.mode == '4+2' &&
               (this.calcObj.套装[4] == undefined || this.calcObj.套装[2] == undefined)) ||
@@ -99,7 +98,6 @@ export default {
             this.$notify('请先选择二四六号位的主属性.');
             return;
           }
-          console.log('this.calcObj.主属性 :', this.calcObj.主属性);
           break;
 
         default:

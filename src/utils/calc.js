@@ -182,8 +182,15 @@ class MitamaComb {
     let mitamaCombList = this.makeCombination();
     // 按组合属性上下限过滤
     mitamaCombList = this.filterMitama(mitamaCombList);
-    // 按输出伤害过滤
-    mitamaCombList = this.fitDamageLimit(mitamaCombList);
+
+    if (this.面板限制?.输出) {
+      // 按输出伤害过滤
+      console.log('this.面板限制?.输出 :', this.面板限制?.输出);
+      mitamaCombList = this.fitDamageLimit(mitamaCombList);
+    }
+
+    // const it = mitamaCombList[Symbol.iterator]();
+    // console.log('iterator.next() :', it.next().value);
 
     let maxDamage = 0;
     let maxMitamaComb = {};
@@ -197,6 +204,7 @@ class MitamaComb {
     console.log('最优组合 :', maxMitamaComb);
     console.log('最高面板 :', maxDamage);
     console.log('over');
+    return maxMitamaComb;
   }
 
   // 六个位置及套装属性求和
