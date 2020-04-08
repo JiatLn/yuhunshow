@@ -1,19 +1,17 @@
 <template>
-  <div id="box">
-    <div v-if="maxSpeedList.length">
-      <van-divider>{{ maxSpeed }}</van-divider>
+  <div id="box" v-if="combo.length">
+    <div>
       <ul class="yuhun-box">
         <li
           :class="'yuhun-pos-' + (index + 1)"
-          v-for="(item, index) in maxSpeedList"
+          v-for="(item, index) in combo"
           :key="index"
           @click="show(index)"
         >
-          <img :src="item.icon" alt />
+          <img :src="getIcon(item.name)" alt />
         </li>
       </ul>
     </div>
-    <p v-else>请先上传json文件</p>
 
     <!-- 遮罩 -->
     <van-popup v-model="showPop" position="bottom" :style="{ height: '30%' }">
@@ -24,7 +22,7 @@
         </li>
         <li v-for="(v, k, i) in showItem.attrs" :key="i">
           <span>{{ k }}</span>
-          <span>+{{ v | ff(k, 2) }}</span>
+          <span>+{{ v | ff(k, 0) }}</span>
         </li>
       </ul>
     </van-popup>
@@ -33,15 +31,13 @@
 
 <script>
 import _ from 'lodash';
-import { mapState } from 'vuex';
 import yuhunMap from '@/data/yuhunMap';
 import { ff } from '@/filters';
 
 export default {
+  props: ['combo'],
   data() {
     return {
-      maxSpeedList: [],
-      maxSpeed: 0,
       showPop: false,
       showItem: {},
       activeName: ['1'],
@@ -50,46 +46,13 @@ export default {
   filters: {
     ff,
   },
-  computed: {
-    ...mapState(['yuhunList']),
-  },
-  mounted() {
-    if (!this.yuhunList.length) return;
-    this.getMaxSpeed();
-    console.log('calc max speed :', this.maxSpeed);
-  },
   methods: {
+    getIcon(name) {
+      return _.find(yuhunMap, o => o.name == name).icon;
+    },
     show(index) {
       this.showPop = !this.showPop;
-      this.showItem = this.maxSpeedList[index];
-    },
-    getPosMaxSpeed(pos) {
-      let yuhun = [];
-      if (pos === 2) {
-        yuhun = this.yuhunList.filter(item => {
-          return item.pos === pos && '速度' in item.attrs && item.mainAttr == '速度';
-        });
-      } else {
-        yuhun = this.yuhunList.filter(item => {
-          return item.pos === pos && '速度' in item.attrs;
-        });
-      }
-      yuhun = yuhun.sort((a, b) => {
-        return b.attrs.速度 - a.attrs.速度;
-      });
-      yuhun[0].icon = _.find(yuhunMap, o => o.name == yuhun[0].name).icon;
-      return yuhun[0];
-    },
-    getMaxSpeed() {
-      let maxSpeedList = [];
-      let maxSpeed = 0;
-      for (let i = 0; i < 6; i++) {
-        let maxPos = this.getPosMaxSpeed(i + 1);
-        maxSpeedList.push(maxPos);
-        maxSpeed += maxPos.attrs.速度;
-      }
-      this.maxSpeedList = maxSpeedList;
-      this.maxSpeed = maxSpeed.toFixed(6);
+      this.showItem = this.combo[index];
     },
   },
 };
@@ -109,7 +72,7 @@ export default {
 .yuhun-box {
   box-sizing: border-box;
   width: 100%;
-  height: 280px;
+  height: 200px;
   position: relative;
   li {
     width: 64px;
@@ -134,28 +97,28 @@ export default {
   }
   .yuhun-pos-1 {
     position: absolute;
-    top: 2.2rem;
-    left: 5.6rem;
+    top: 0.2rem;
+    left: 7.6rem;
   }
   .yuhun-pos-2 {
     position: absolute;
-    top: 7.2rem;
-    left: 2.6rem;
+    top: 4.2rem;
+    left: 4.6rem;
     &::before {
       transform: rotate(-45deg);
     }
   }
   .yuhun-pos-3 {
     position: absolute;
-    top: 12.2rem;
-    left: 5.6rem;
+    top: 8.2rem;
+    left: 7.6rem;
     &::before {
       transform: rotate(-90deg);
     }
   }
   .yuhun-pos-4 {
     position: absolute;
-    top: 12.2rem;
+    top: 8.2rem;
     left: 13.6rem;
     &::before {
       transform: rotate(-180deg);
@@ -163,7 +126,7 @@ export default {
   }
   .yuhun-pos-5 {
     position: absolute;
-    top: 7.2rem;
+    top: 4.2rem;
     left: 16.6rem;
     &::before {
       transform: rotate(135deg);
@@ -171,7 +134,7 @@ export default {
   }
   .yuhun-pos-6 {
     position: absolute;
-    top: 2.2rem;
+    top: 0.2rem;
     left: 13.6rem;
     &::before {
       transform: rotate(90deg);
