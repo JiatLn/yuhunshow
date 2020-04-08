@@ -15,25 +15,37 @@
         size="small"
         color="linear-gradient(to right, #4bb0ff, #6149f6)"
         block
+        loading-text="计算中..."
+        :loading="loading"
       >
         计算
       </van-button>
     </div>
+    <van-divider>计算结果将显示在下面</van-divider>
+    <YuhunBox :combo="combo.info || []" v-if="showCb"></YuhunBox>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 import MitamaComb from '@/utils/calc';
 
+import YuhunBox from '@/components/YuhunBox';
+
 export default {
   props: ['obj'],
+  components: {
+    YuhunBox,
+  },
   data() {
-    return {};
+    return {
+      combo: undefined,
+      showCb: false,
+    };
   },
   computed: {
-    ...mapState(['yuhunList']),
+    ...mapState(['yuhunList', 'loading']),
     showItem() {
       let speedMin = this.obj?.属性限制?.速度?.min || 0;
       let speedMax = this.obj?.属性限制?.速度?.max || Infinity;
@@ -85,13 +97,21 @@ export default {
       };
     },
   },
+  watch: {
+    combo(val) {
+      this.showCb = (val?.info || []).length == 6;
+    },
+  },
   methods: {
+    ...mapMutations(['isLoading']),
     calc() {
+      this.$store.commit('isLoading');
       this.$emit('updateCalcObj', 'yuhunList', this.yuhunList);
       let calc = new MitamaComb(this.obj);
-      console.log(calc);
       calc.sayHello();
-      calc.testOutput();
+      let combo = calc.testOutput();
+      this.combo = combo;
+      this.$store.commit('isLoading');
     },
   },
 };
@@ -99,7 +119,7 @@ export default {
 
 <style lang="less" scoped>
 .btn {
-  margin: 20px 40px 0 40px;
+  margin: 20px 40px;
 }
 .pane {
   padding: 14px 0;
