@@ -103,15 +103,16 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['isLoading']),
+    ...mapMutations(['updateLoading']),
     calc() {
-      this.$store.commit('isLoading');
+      this.$store.commit('updateLoading');
       this.$emit('updateCalcObj', 'yuhunList', this.yuhunList);
       let calc = new MitamaComb(this.obj);
+      console.log('calc :', calc);
       calc.sayHello();
       let combo = calc.testOutput();
       this.combo = combo;
-      this.$store.commit('isLoading');
+      this.$store.commit('updateLoading');
     },
   },
 };

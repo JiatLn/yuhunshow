@@ -18,7 +18,7 @@ export default new Vuex.Store({
     updateYhCount(state, data) {
       state.yuhunCount = data;
     },
-    isLoading(state) {
+    updateLoading(state) {
       state.loading = !state.loading;
       console.log('isLoading :', state.loading);
     },

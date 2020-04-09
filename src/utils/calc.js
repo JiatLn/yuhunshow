@@ -52,6 +52,7 @@ class MitamaComb {
   init(yhList) {
     let yuhunList = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
     for (const yuhun of yhList) {
+      // if (yuhun.info.star < 6 || yuhun.info.level < 15) continue;
       yuhunList[yuhun.pos].push(yuhun);
     }
     return yuhunList;
