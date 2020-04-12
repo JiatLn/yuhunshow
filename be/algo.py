@@ -79,11 +79,11 @@ class YuhunComb(object):
         for i in range(1, 7):
             self.yuhun_dict[i] = list(filter(lambda x: x['star'] == 6 and x['level'] == 15, self.yuhun_dict[i]))
         # 过滤二四六号位的御魂
-        if len(self.l2_prop_limit):
+        if self.l2_prop_limit:
             self.yuhun_dict[2] = self.filter_loc_prop(self.yuhun_dict[2], self.l2_prop_limit)
-        if len(self.l4_prop_limit):
+        if self.l4_prop_limit:
             self.yuhun_dict[4] = self.filter_loc_prop(self.yuhun_dict[4], self.l4_prop_limit)
-        if len(self.l6_prop_limit):
+        if self.l6_prop_limit:
             self.yuhun_dict[6] = self.filter_loc_prop(self.yuhun_dict[6], self.l6_prop_limit)
         # 过滤不包含有效属性的御魂
         for i in range(1, 7):
@@ -194,14 +194,21 @@ class YuhunComb(object):
             # 输出伤害 = ((式神基础攻击 * (1 + 攻击加成)) + 小攻击) * (基础暴伤 + 御魂暴伤)
             pane = ((self.shishen_pane['攻击'] * (1 + combo['yuhun_pane']['攻击加成'])) +
                     combo['yuhun_pane']['攻击']) * (self.shishen_pane['暴击伤害'] + combo['yuhun_pane']['暴击伤害'])
+
         if self.optimize_pane == '双重暴击':
             # 双重暴击 = ((式神基础攻击 * (1 + 攻击加成)) + 小攻击) * (基础暴伤 + 御魂暴伤) ^ 2
             pane = ((self.shishen_pane['攻击'] * (1 + combo['yuhun_pane']['攻击加成'])) +
                     combo['yuhun_pane']['攻击']) * pow(self.shishen_pane['暴击伤害'] + combo['yuhun_pane']['暴击伤害'], 2)
+
         if self.optimize_pane == '生命治疗':
             # 生命治疗 = ((式神基础生命 * (1 + 生命加成)) + 小生命) * (基础暴伤 + 御魂暴伤)
             pane = ((self.shishen_pane['生命'] * (1 + combo['yuhun_pane']['生命加成'])) +
                     combo['yuhun_pane']['生命']) * (self.shishen_pane['暴击伤害'] + combo['yuhun_pane']['暴击伤害'])
+
+        if self.optimize_pane == '命抗双修':
+            pane = self.shishen_pane['效果命中'] + self.shishen_pane['效果抵抗'] + \
+                combo['yuhun_pane']['效果命中'] + combo['yuhun_pane']['效果抵抗']
+
         combo['optimize_pane'] = pane
         return combo
 
@@ -220,7 +227,7 @@ class YuhunComb(object):
             # 御魂a 与御魂list进行比较, 如果御魂list中存在完胜御魂a的 则将a剔除掉
             for yh_b in yuhun_list:
                 if yh_a['id'] in need_remove_list:
-                    continue
+                    break
                 if set(yh_a['props'].keys()) & set(not_free_prop_list):
                     continue
                 if yh_a['id'] == yh_b['id'] or yh_a['name'] != yh_b['name'] or yh_a['main_prop'] != yh_b['main_prop']:
@@ -235,6 +242,7 @@ class YuhunComb(object):
                         break
                 if not a_better_than_b:
                     need_remove_list.append(yh_a['id'])
+                    break
         good_list = [yuhun for yuhun in yuhun_list if yuhun['id'] not in need_remove_list]
         print(f'已过滤御魂{len(need_remove_list)}个')
         return good_list
