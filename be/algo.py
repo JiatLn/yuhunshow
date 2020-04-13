@@ -1,5 +1,6 @@
 from functools import reduce
 import itertools
+import sys
 
 import data_format
 
@@ -26,6 +27,9 @@ class YuhunComb(object):
         self.effective_props = list(set(data_format.MITAMA_PROPS_EFFECT[optimize_pane]) | set(limit_props.keys()))
         self.plan = plan
         self.shishen_pane = shishen_pane
+        self.calculated_count = 0
+        self.printed_rate = 0
+        self.total_comb = 0
 
     def yuhun_list2dict(self, yuhun_list):
         yuhun_dict = {1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
@@ -72,7 +76,7 @@ class YuhunComb(object):
     def filter_loc_prop(self, yuhun_list, prop_limit):
         return list(filter(lambda x: x['main_prop'] in prop_limit, yuhun_list))
 
-    def run(self):
+    def clean(self):
         # yuhun_count = reduce(lambda x, y: x*y, map(len, self.yuhun_dict.values()))
         print(list(map(len, self.yuhun_dict.values())))
         # 过滤低星及未满级御魂
@@ -93,6 +97,17 @@ class YuhunComb(object):
             self.yuhun_dict[i] = self.filter_lower_yuhun(self.yuhun_dict[i])
         # yuhun_count = reduce(lambda x, y: x*y, map(len, self.yuhun_dict.values()))
         print(list(map(len, self.yuhun_dict.values())))
+
+        # 处理self.limit_props
+        if '速度' in self.limit_props.keys():
+            self.limit_props['速度']['min'] -= self.shishen_pane['速度']
+            self.limit_props['速度']['max'] -= self.shishen_pane['速度']
+        if '暴击' in self.limit_props.keys():
+            self.limit_props['暴击']['min'] -= self.shishen_pane['暴击']
+            self.limit_props['暴击']['max'] -= self.shishen_pane['暴击']
+        if '暴击伤害' in self.limit_props.keys():
+            self.limit_props['暴击伤害']['min'] -= self.shishen_pane['暴击伤害']
+            self.limit_props['暴击伤害']['max'] -= self.shishen_pane['暴击伤害']
 
     def get_yuhun_combos(self):
 
@@ -131,7 +146,6 @@ class YuhunComb(object):
         # 生成组合
         yuhun_permutations = self.get_yuhun_permutations()
         product_list = []
-        total_combo_num = 0
         for perm in yuhun_permutations:
             comb_yuhun_list = [[], [], [], [], [], []]
             for index, name in enumerate(perm):
@@ -140,12 +154,13 @@ class YuhunComb(object):
                         comb_yuhun_list[index].append(yuhun)
             cur_combo_num = reduce(lambda x, y: x * y, map(len, comb_yuhun_list))
             if cur_combo_num:
-                total_combo_num += cur_combo_num
+                self.total_comb += cur_combo_num
                 product_list.append(itertools.product(*comb_yuhun_list))
-        print('组合数：', total_combo_num)
+        print('组合数：', self.total_comb)
         return itertools.chain(*product_list)
 
     def pipeline(self):
+        self.clean()
         combo_list = self.make_combocation()
         combo_list = map(lambda x: self.add_yuhun_name(x), combo_list)
         combo_list = map(lambda x: self.add_sum_props(x), combo_list)
@@ -190,24 +205,26 @@ class YuhunComb(object):
 
     def calc_pane(self, combo):
         pane = 0
+        ss_pane = self.shishen_pane
+        yh_pane = combo['yuhun_pane']
         if self.optimize_pane == '输出伤害':
             # 输出伤害 = ((式神基础攻击 * (1 + 攻击加成)) + 小攻击) * (基础暴伤 + 御魂暴伤)
-            pane = ((self.shishen_pane['攻击'] * (1 + combo['yuhun_pane']['攻击加成'])) +
-                    combo['yuhun_pane']['攻击']) * (self.shishen_pane['暴击伤害'] + combo['yuhun_pane']['暴击伤害'])
+            pane = ((ss_pane['攻击'] * (1 + yh_pane['攻击加成'])) +
+                    yh_pane['攻击']) * (ss_pane['暴击伤害'] + yh_pane['暴击伤害'])
 
         if self.optimize_pane == '双重暴击':
             # 双重暴击 = ((式神基础攻击 * (1 + 攻击加成)) + 小攻击) * (基础暴伤 + 御魂暴伤) ^ 2
-            pane = ((self.shishen_pane['攻击'] * (1 + combo['yuhun_pane']['攻击加成'])) +
-                    combo['yuhun_pane']['攻击']) * pow(self.shishen_pane['暴击伤害'] + combo['yuhun_pane']['暴击伤害'], 2)
+            pane = ((ss_pane['攻击'] * (1 + yh_pane['攻击加成'])) +
+                    yh_pane['攻击']) * pow(ss_pane['暴击伤害'] + yh_pane['暴击伤害'], 2)
 
         if self.optimize_pane == '生命治疗':
             # 生命治疗 = ((式神基础生命 * (1 + 生命加成)) + 小生命) * (基础暴伤 + 御魂暴伤)
-            pane = ((self.shishen_pane['生命'] * (1 + combo['yuhun_pane']['生命加成'])) +
-                    combo['yuhun_pane']['生命']) * (self.shishen_pane['暴击伤害'] + combo['yuhun_pane']['暴击伤害'])
+            pane = ((ss_pane['生命'] * (1 + yh_pane['生命加成'])) +
+                    yh_pane['生命']) * (ss_pane['暴击伤害'] + yh_pane['暴击伤害'])
 
         if self.optimize_pane == '命抗双修':
-            pane = self.shishen_pane['效果命中'] + self.shishen_pane['效果抵抗'] + \
-                combo['yuhun_pane']['效果命中'] + combo['yuhun_pane']['效果抵抗']
+            pane = ss_pane['效果命中'] + ss_pane['效果抵抗'] + \
+                yh_pane['效果命中'] + yh_pane['效果抵抗']
 
         combo['optimize_pane'] = pane
         return combo
