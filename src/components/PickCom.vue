@@ -42,8 +42,8 @@ export default {
   methods: {
     getPicker() {
       this.picker = this.$refs.picker.getValues()[1];
-      this.$emit('updateCalcObj', '式神', this.picker);
-      this.$emit('updateCalcObj', '基础面板', this.pickPane);
+      this.$emit('updateCalcObj', 'shishen', this.picker);
+      this.$emit('updateCalcObj', 'shishen_pane', this.pickPane);
     },
   },
   computed: {

@@ -89,7 +89,7 @@ export default {
           }
         }
       });
-      this.$emit('updateCalcObj', '属性限制', limit);
+      this.$emit('updateCalcObj', 'limit_props', limit);
     },
     onChangePaneLimit() {
       let limit = {};
@@ -101,7 +101,7 @@ export default {
           };
         }
       });
-      this.$emit('updateCalcObj', '面板限制', limit);
+      this.$emit('updateCalcObj', 'limit_pane', limit);
     },
   },
 };

@@ -13,7 +13,7 @@
       <!-- <choose-com v-show="curStep === 1" @updateCalcObj="updateCalcObj"></choose-com> -->
       <select-tree v-show="curStep === 1" @updateCalcObj="updateCalcObj"></select-tree>
       <limit-com v-show="curStep === 2" @updateCalcObj="updateCalcObj"></limit-com>
-      <target-com v-show="curStep === 3" @updateCalcObj="updateCalcObj"></target-com>
+      <optimize-pane-com v-show="curStep === 3" @updateCalcObj="updateCalcObj"></optimize-pane-com>
       <result-com v-show="curStep === 4" @updateCalcObj="updateCalcObj" :obj="calcObj"></result-com>
     </div>
     <div class="btn-group">
@@ -32,7 +32,7 @@ import PickCom from '@/components/PickCom';
 import ChooseComNew from '@/components/ChooseComNew';
 import SelectTree from '@/components/SelectTree';
 import LimitCom from '@/components/LimitCom';
-import TargetCom from '@/components/TargetCom';
+import OptimizePaneCom from '@/components/OptimizePaneCom';
 import ResultCom from '@/components/ResultCom';
 
 export default {
@@ -40,18 +40,17 @@ export default {
     return {
       curStep: 0,
       calcObj: {
-        yuhunList: [],
-        式神: '请选择',
-        套装: {},
-        主属性: {
-          2: [],
-          4: [],
-          6: [],
-        },
-        属性限制: {},
-        目标: '输出伤害',
+        yuhun_list: [],
+        shishen: '请选择',
+        plan: {},
+        l2_prop_limit: [],
+        l4_prop_limit: [],
+        l6_prop_limit: [],
+        limit_props: {},
+        limit_pane: {},
+        optimize_pane: '输出伤害',
         mode: '4+2',
-        基础面板: {},
+        shishen_pane: {},
       },
     };
   },
@@ -60,20 +59,14 @@ export default {
     ChooseComNew,
     SelectTree,
     LimitCom,
-    TargetCom,
+    OptimizePaneCom,
     ResultCom,
   },
   methods: {
     nextStep() {
-      // if (this.curStep == 0) {
-      //   if (this.calcObj.式神 == '请选择') {
-      //     this.$notify('请先选择目标式神.');
-      //     return;
-      //   }
-      // }
       switch (this.curStep) {
         case 0:
-          if (this.calcObj.式神 == '请选择') {
+          if (this.calcObj.shishen == '请选择') {
             this.$notify('请先选择目标式神.');
             return;
           }
@@ -81,19 +74,19 @@ export default {
         case 1:
           if (
             (this.calcObj.mode == '4+2' &&
-              (this.calcObj.套装[4] == undefined || this.calcObj.套装[2] == undefined)) ||
+              (this.calcObj.plan['4'] == undefined || this.calcObj.plan['2'] == undefined)) ||
             (this.calcObj.mode == '2+2+2' &&
-              (this.calcObj.套装[1] == undefined ||
-                this.calcObj.套装[2] == undefined ||
-                this.calcObj.套装[3] == undefined))
+              (this.calcObj.plan['1'] == undefined ||
+                this.calcObj.plan['2'] == undefined ||
+                this.calcObj.plan['3'] == undefined))
           ) {
             this.$notify('请先选择御魂组合.');
             return;
           }
           if (
-            !this.calcObj.主属性[2].length ||
-            !this.calcObj.主属性[4].length ||
-            !this.calcObj.主属性[6].length
+            !this.calcObj.l2_prop_limit.length ||
+            !this.calcObj.l4_prop_limit.length ||
+            !this.calcObj.l6_prop_limit.length
           ) {
             this.$notify('请先选择二四六号位的主属性.');
             return;

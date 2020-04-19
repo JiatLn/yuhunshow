@@ -8,14 +8,14 @@
     <br />
     <van-dropdown-menu v-show="mode == '4+2'">
       <van-dropdown-item
-        :title="combo1[4] != undefined ? combo1[4] + '×4' : '选择四件套'"
-        v-model="combo1[4]"
+        :title="combo1['4'] != undefined ? combo1['4'] + '×4' : '选择四件套'"
+        v-model="combo1['4']"
         :options="yuhunOpt"
         @change="onChange"
       />
       <van-dropdown-item
-        :title="combo1[2] != undefined ? combo1[2] + '×2' : '选择二件套'"
-        v-model="combo1[2]"
+        :title="combo1['2'] != undefined ? combo1['2'] + '×2' : '选择二件套'"
+        v-model="combo1['2']"
         :options="yuhunOpt"
         @change="onChange"
       />
@@ -53,27 +53,25 @@ export default {
         return { name: item.name, type: item.type };
       }),
       mode: '4+2',
-      four: 0,
-      two: 0,
       yuhunOpt,
       typeList,
       combo1: {
-        4: undefined,
-        2: undefined,
+        '4': undefined,
+        '2': undefined,
       },
       combo2: {
-        1: undefined,
-        2: undefined,
-        3: undefined,
+        '1': undefined,
+        '2': undefined,
+        '3': undefined,
       },
     };
   },
   methods: {
     onChange() {
       if (this.mode == '4+2') {
-        this.$emit('updateCalcObj', '套装', this.combo1);
+        this.$emit('updateCalcObj', 'plan', this.combo1);
       } else {
-        this.$emit('updateCalcObj', '套装', this.combo2);
+        this.$emit('updateCalcObj', 'plan', this.combo2);
       }
       this.$emit('updateCalcObj', 'mode', this.mode);
     },

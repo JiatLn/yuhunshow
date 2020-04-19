@@ -22,14 +22,14 @@
       </van-button>
     </div>
     <van-divider>计算结果将显示在下面</van-divider>
-    <YuhunBox :combo="combo.info || []" v-if="showCb"></YuhunBox>
+    <YuhunBox :combo="combo || []"></YuhunBox>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import axios from 'axios';
 
-import MitamaComb from '@/utils/calc';
+import { mapState, mapMutations } from 'vuex';
 
 import YuhunBox from '@/components/YuhunBox';
 
@@ -40,15 +40,15 @@ export default {
   },
   data() {
     return {
-      combo: undefined,
       showCb: false,
+      combo: [],
     };
   },
   computed: {
     ...mapState(['yuhunList', 'loading']),
     showItem() {
-      let speedMin = this.obj?.属性限制?.速度?.min || 0;
-      let speedMax = this.obj?.属性限制?.速度?.max || Infinity;
+      let speedMin = this.obj?.limit_props?.速度?.min || 0;
+      let speedMax = this.obj?.limit_props?.速度?.max || Infinity;
       let speedTxt = '';
       if (speedMin == 128 && speedMax == Infinity) {
         speedTxt = '超星';
@@ -61,8 +61,8 @@ export default {
       } else if (speedMin == 0 && speedMax != Infinity) {
         speedTxt = `速度最大${speedMax}`;
       }
-      let critMin = this.obj?.属性限制?.暴击?.min || 0;
-      let critMax = this.obj?.属性限制?.暴击?.max || Infinity;
+      let critMin = this.obj?.limit_props?.暴击?.min || 0;
+      let critMax = this.obj?.limit_props?.暴击?.max || Infinity;
       let critTxt = '';
       if (critMin == 1 && critMax == Infinity) {
         critTxt = '满暴';
@@ -74,45 +74,48 @@ export default {
         critTxt = `暴击最大${critMax * 100}%`;
       }
 
-      let taozTxt = '';
-      for (const key in this.obj.套装) {
-        if (this.obj.套装[key] != undefined) {
-          taozTxt += this.obj.套装[key] + 'x' + (key == 4 ? key : 2) + ' ';
+      let planTxt = '';
+      for (const key in this.obj.plan) {
+        if (this.obj.plan[key] != undefined) {
+          planTxt += this.obj.plan[key] + 'x' + (key == '4' ? key : '2') + ' ';
         }
       }
 
       let posTxt = '';
       posTxt = `
-        ${this.obj.主属性[2].join(' ')} |
-        ${this.obj.主属性[4].join(' ')} |
-        ${this.obj.主属性[6].join(' ')}
+        ${this.obj.l2_prop_limit.join(' ')} |
+        ${this.obj.l4_prop_limit.join(' ')} |
+        ${this.obj.l6_prop_limit.join(' ')}
         `;
 
       return {
-        式神: this.obj.式神,
-        套装: taozTxt,
+        式神: this.obj.shishen,
+        套装: planTxt,
         位置: posTxt,
         速度: speedTxt,
         暴击: critTxt,
       };
     },
   },
-  watch: {
-    combo(val) {
-      this.showCb = (val?.info || []).length == 6;
-    },
-  },
   methods: {
     ...mapMutations(['updateLoading']),
     calc() {
       this.$store.commit('updateLoading');
-      this.$emit('updateCalcObj', 'yuhunList', this.yuhunList);
-      let calc = new MitamaComb(this.obj);
-      console.log('calc :', calc);
-      calc.sayHello();
-      let combo = calc.testOutput();
-      this.combo = combo;
-      this.$store.commit('updateLoading');
+      this.$emit('updateCalcObj', 'yuhun_list', this.yuhunList);
+      console.log('this.obj :', this.obj);
+      axios
+        .post('http://127.0.0.1:5000/calc', { ...this.obj })
+        .then(({ data }) => {
+          console.log(data);
+          this.combo = data.res.info;
+          this.$notify({ type: 'success', message: '计算完毕.' });
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.$store.commit('updateLoading');
+        });
     },
   },
 };

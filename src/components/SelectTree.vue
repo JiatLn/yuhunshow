@@ -6,29 +6,31 @@
       :items="items"
       :active-id.sync="activeIds"
       :main-active-index.sync="activeIndex"
-      @click-item="getMainAttrsList"
+      @click-item="getPropLimitList"
     />
   </div>
 </template>
 
 <script>
-import { mainAttrsList, mapAttrs } from '@/data/dataFormat';
+import { mainPropList, mapProp } from '@/data/dataFormat';
 export default {
   data() {
     return {
-      items: mainAttrsList,
+      items: mainPropList,
       activeIds: [],
       activeIndex: 0,
     };
   },
   methods: {
-    getMainAttrsList() {
-      let mainAttrs = { 2: [], 4: [], 6: [] };
+    getPropLimitList() {
+      let propLimit = { '2': [], '4': [], '6': [] };
       this.activeIds.forEach(item => {
         let posid = parseInt((item % 100) / 10);
-        mainAttrs[posid].push(mapAttrs[item]);
+        propLimit[posid].push(mapProp[item]);
       });
-      this.$emit('updateCalcObj', '主属性', mainAttrs);
+      this.$emit('updateCalcObj', 'l2_prop_limit', propLimit['2']);
+      this.$emit('updateCalcObj', 'l4_prop_limit', propLimit['4']);
+      this.$emit('updateCalcObj', 'l6_prop_limit', propLimit['6']);
     },
   },
 };

@@ -18,9 +18,9 @@
       <ul class="show-pop">
         <li>
           <span>{{ showItem.name }}</span>
-          <span style="color: red">{{ showItem.pos }}号位 · {{ showItem.mainAttr }}</span>
+          <span style="color: red">{{ showItem.loc }}号位 · {{ showItem.main_prop }}</span>
         </li>
-        <li v-for="(v, k, i) in showItem.attrs" :key="i">
+        <li v-for="(v, k, i) in showItem.props" :key="i">
           <span>{{ k }}</span>
           <span>+{{ v | ff(k, 0) }}</span>
         </li>

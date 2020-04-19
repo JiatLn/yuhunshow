@@ -75,7 +75,7 @@ let yuhunTree = [
   },
 ];
 
-let mainAttrsList = [
+let mainPropList = [
   {
     text: '二号位',
     id: 2,
@@ -152,7 +152,7 @@ let mainAttrsList = [
   },
 ];
 
-let targetList = [
+let optimizePaneList = [
   {
     name: '输出伤害',
     id: 1,
@@ -195,7 +195,7 @@ let targetList = [
   // },
 ];
 
-let mapAttrs = {
+let mapProp = {
   21: '攻击加成',
   22: '生命加成',
   23: '防御加成',
@@ -295,12 +295,12 @@ for (let o in heroTree) {
 }
 
 export {
-  mainAttrsList,
-  mapAttrs,
+  mainPropList,
+  mapProp,
   yuhunTree,
   HeroTree,
   typeList,
-  targetList,
+  optimizePaneList,
   MITAMA_ENHANCE,
   MITAMA_TYPES,
   MITAMA_PROPS,

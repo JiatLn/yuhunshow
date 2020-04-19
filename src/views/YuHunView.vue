@@ -59,8 +59,9 @@ export default {
         if (yuhunJson.length > 0) {
           let username = file.name.split('.')[0];
           console.log('loaded yuhun data :', username);
-          let yuhun = yuhunJson.map(item => this.fixItem(item));
-          yuhun = yuhun.filter(item => item.info.level == 15 && item.info.star == 6);
+          let yuhun = yuhunJson;
+          // let yuhun = yuhunJson.map(item => this.fixItem(item));
+          // yuhun = yuhun.filter(item => item.info.level == 15 && item.info.star == 6);
           localStorage.setItem('yuhun', JSON.stringify(yuhun));
           localStorage.setItem('username', username);
           this.$store.commit('updateYhList', { yuhun, username });
