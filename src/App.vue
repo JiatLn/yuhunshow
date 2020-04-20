@@ -22,19 +22,23 @@ export default {
     return {};
   },
   mounted() {
-    let yuhun = localStorage.getItem('yuhun');
-    let username = localStorage.getItem('username');
-    if (yuhun != null && username != null && yuhun.length > 0 && username.length > 0) {
-      console.log('loaded yuhun data :', username);
-      this.$store.commit('updateYhList', {
-        username,
-        yuhun: JSON.parse(yuhun),
-      });
+    // let yuhun = localStorage.getItem('yuhun');
+    // let username = localStorage.getItem('username');
+    // if (yuhun != null && username != null && yuhun.length > 0 && username.length > 0) {
+    //   console.log('loaded yuhun data :', username);
+    //   this.$store.commit('updateYhList', {
+    //     username,
+    //     yuhun: JSON.parse(yuhun),
+    //   });
+    // }
+    let yyx = localStorage.getItem('yyx');
+    if (yyx.length > 0) {
+      this.$store.commit('updateYYX', JSON.parse(yyx));
     }
   },
 
   methods: {
-    ...mapMutations(['updateYhList']),
+    ...mapMutations(['updateYhList', 'updateYYX']),
     goBack() {
       this.$router.go(-1);
     },

@@ -9,6 +9,7 @@ export default new Vuex.Store({
     yuhunList: [],
     yuhunCount: [],
     loading: false,
+    yyx: {},
   },
   mutations: {
     updateYhList(state, data) {
@@ -18,9 +19,11 @@ export default new Vuex.Store({
     updateYhCount(state, data) {
       state.yuhunCount = data;
     },
+    updateYYX(state, data) {
+      state.yyx = data;
+    },
     updateLoading(state) {
       state.loading = !state.loading;
-      console.log('isLoading :', state.loading);
     },
   },
   actions: {},
