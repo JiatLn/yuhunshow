@@ -1,0 +1,25 @@
+let assetsList = [
+  { name: 'coin', icon: require('@/assets/img/asset/money.png'), text: '金币' },
+  { name: 'action_point', icon: require('@/assets/img/asset/strength.png'), text: '体力' },
+  { name: 'jade', icon: require('@/assets/img/asset/gouyu.png'), text: '勾玉' },
+  { name: 's_jade', icon: require('@/assets/img/asset/hunyu.png'), text: '魂玉' },
+  { name: 'mystery_amulet', icon: require('@/assets/img/asset/mystery.png'), text: '神秘符咒' },
+  { name: 'ar_amulet', icon: require('@/assets/img/asset/ar.png'), text: '现世符咒' },
+  { name: 'reverse_scale', icon: require('@/assets/img/asset/gold_scale.png'), text: '金蛇皮' },
+  { name: 'demon_soul', icon: require('@/assets/img/asset/demon_soul.png'), text: '逢魔之魂' },
+  { name: 'ofuda', icon: require('@/assets/img/asset/ofuda.png'), text: '御札' },
+  { name: 'gold_ofuda', icon: require('@/assets/img/asset/gold_ofuda.png'), text: '金御札' },
+  { name: 'skin_token', icon: require('@/assets/img/asset/skin.png'), text: '皮肤券' },
+  { name: 'sp_skin_token', icon: require('@/assets/img/asset/sp_skin.png'), text: 'SP皮肤券' },
+  { name: 'honor', icon: require('@/assets/img/asset/honor.png'), text: '荣誉' },
+  { name: 'medal', icon: require('@/assets/img/asset/medal.png'), text: '勋章' },
+  { name: 'auto_point', icon: require('@/assets/img/asset/yingbing.png'), text: '樱饼' },
+  { name: 'contrib', icon: require('@/assets/img/asset/love.png'), text: '功勋' },
+  { name: 'realm_raid_pass', icon: require('@/assets/img/asset/love.png'), text: '突破券' },
+  { name: 'broken_amulet', icon: require('@/assets/img/asset/love.png'), text: '破碎符' },
+  { name: 'totem_pass', icon: require('@/assets/img/asset/totem_pass.png'), text: '御灵券' },
+  { name: 'foolery_pass', icon: require('@/assets/img/asset/fool.png'), text: '痴念之卷' },
+  { name: 'scale', icon: require('@/assets/img/asset/scale.png'), text: '紫蛇皮' },
+];
+
+export { assetsList };
