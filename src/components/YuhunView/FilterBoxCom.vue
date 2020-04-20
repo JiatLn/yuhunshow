@@ -23,11 +23,31 @@
       </van-grid-item>
     </van-grid>
     <p class="tips">仅展示：全部+15的御魂以及式神已装备的御魂</p>
+    <van-popup v-model="active" position="bottom" :style="{ height: '30%' }" class="popup">
+      <div class="yuhun-desc" v-if="Object.keys(showItem).length">
+        <div class="title">
+          <img :src="showItem.icon" alt="" />
+          <span>{{ showItem.name }}</span>
+          <span>+{{ showItem.level }}</span>
+        </div>
+        <ul>
+          <li>
+            <span>{{ showItem.base_attr.type }}</span>
+            <span>+{{ showItem.base_attr.value }}</span>
+          </li>
+          <li v-for="(item, index) in showItem.attrs" :key="index">
+            <span>{{ item.type }}</span>
+            <span>+{{ item.value }}</span>
+          </li>
+        </ul>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import yuhunMap from '@/data/yuhunMap';
+
 export default {
   props: ['yuhunByLoc'],
   data() {
@@ -35,6 +55,7 @@ export default {
       locList: ['壹', '贰', '叁', '肆', '伍', '陆'],
       selected: 1,
       showItem: {},
+      active: true,
     };
   },
   computed: {
@@ -64,6 +85,7 @@ export default {
     show(item) {
       console.log('item :', item);
       this.showItem = item;
+      this.active = true;
     },
   },
 };
@@ -126,5 +148,34 @@ export default {
   color: #aaa;
   font-size: 12px;
   padding-bottom: 10px;
+}
+
+.popup {
+  background-color: rgb(214, 201, 185);
+  box-shadow: inset 0 0 0 1px #3a200d, inset 0 0 0 2px #aa8559, inset 0 0 2px 3px #261a0d;
+  .yuhun-desc {
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    margin: 16px 18px;
+    font-size: 14px;
+    ul li:first-child {
+      color: #d96932;
+    }
+    li {
+      display: flex;
+      justify-content: space-between;
+      margin: 5px 0;
+    }
+    .title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      img {
+        margin-right: 12px;
+        width: 38px;
+      }
+    }
+  }
 }
 </style>

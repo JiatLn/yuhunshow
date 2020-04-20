@@ -29,7 +29,7 @@ export default {
   computed: {
     ...mapState(['yyx']),
     yuhunList() {
-      return this.yyx.data.hero_equips;
+      return this.yyx?.data?.hero_equips || [];
     },
     yuhunByLoc() {
       let yuhunByLoc = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
